@@ -1,6 +1,6 @@
 ![header](imgs/header.jpg)
 
-# AlphaFold (on ROCm fork in singularity port)
+# AlphaFold (port to ROCm in singularity) for use with LUMI-C
 
 Current status: Compiling OpenMM for ROCm/OpenCL with CMake works. Most tests pass
 
