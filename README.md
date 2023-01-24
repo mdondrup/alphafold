@@ -4,6 +4,7 @@
 
 Current status: Compiling OpenMM for ROCm/OpenCL with CMake works. Most tests pass
 
+This is the result of make test with --nodes=1 --ntasks=8 --gpus-per-node=4 --exclusive
 ```
 98% tests passed, 3 tests failed out of 135
 
@@ -15,7 +16,17 @@ The following tests FAILED:
 	123 - TestSerializeState (SEGFAULT)
 Errors while running CTest
 ```
+This  is the result with  --nodes=1 --ntasks=1 --gpus-per-node=2 --exclusive
+```
+99% tests passed, 2 tests failed out of 135
 
+Total Test time (real) = 326.35 sec
+
+The following tests FAILED:
+	119 - TestSerializeNoseHooverIntegrator (SEGFAULT)
+	123 - TestSerializeState (SEGFAULT)
+	
+````
 
 
 This package provides an implementation of the inference pipeline of AlphaFold
