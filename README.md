@@ -1,6 +1,22 @@
 ![header](imgs/header.jpg)
 
-# AlphaFold
+# AlphaFold (on ROCm fork in singularity port)
+
+Current status: Compiling OpenMM for ROCm/OpenCL with CMake works. Most tests pass
+
+```
+98% tests passed, 3 tests failed out of 135
+
+Total Test time (real) = 310.33 sec
+
+The following tests FAILED:
+	 54 - TestCpuLangevinIntegrator (Failed)
+	119 - TestSerializeNoseHooverIntegrator (SEGFAULT)
+	123 - TestSerializeState (SEGFAULT)
+Errors while running CTest
+```
+
+
 
 This package provides an implementation of the inference pipeline of AlphaFold
 v2. For simplicity, we refer to this model as AlphaFold throughout the rest of
