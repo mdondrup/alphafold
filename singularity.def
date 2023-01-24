@@ -1,0 +1,96 @@
+Bootstrap: docker
+From: rocm/jax:latest
+
+%labels
+Author mdondrup
+
+%post
+
+    apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+        cmake \
+        git \
+        hmmer \
+        kalign \
+        tzdata \
+        flex \
+        bison
+# leave the list, or we can't use apt later
+# && rm -rf /var/lib/apt/lists/* \
+#    && apt-get autoremove -y \
+    apt-get clean
+
+# Get my alphafold fork
+
+     mkdir -p /app
+     git clone https://github.com/mdondrup/alphafold.git /app/alphafold
+
+     wget -q -P /app/alphafold/alphafold/common/ \
+     https://git.scicore.unibas.ch/schwede/openstructure/-/raw/7102c63615b64735c4941278d92b554ec94415f8/modules/mol/alg/src/stereo_chemical_props.txt
+
+
+# Compile HHsuite from source.
+    git clone --branch v3.3.0 https://github.com/soedinglab/hh-suite.git /tmp/hh-suite \
+    && mkdir /tmp/hh-suite/build \
+    && pushd /tmp/hh-suite/build \
+    && cmake -DCMAKE_INSTALL_PREFIX=/opt/hhsuite .. \
+    && make -j 4 && make install \
+    && ln -s /opt/hhsuite/bin/* /usr/bin \
+    && popd \
+    && rm -rf /tmp/hh-suite
+
+# Do not Install Miniconda package manager.
+# Because the system python is compiled with the rocm binding
+# This will install another python with the system python and so we
+# CANNOT Install openmm that way!
+#    wget -q -P /tmp \
+#       https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+#       && bash /tmp/Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda \
+#       && rm /tmp/Miniconda3-latest-Linux-x86_64.sh
+
+
+
+# Install conda packages but don't use condas python.
+#     export PATH="$PATH:/opt/conda/bin"
+#    conda install -qy conda==4.13.0 \
+#    && conda install -y -c conda-forge \
+#      openmm \
+#      pdbfixer \
+#      && conda clean --all --force-pkgs-dirs --yes
+
+
+# Install pip packages, abs-py and jax already installed, make sure not to use
+#  conda tools ever not using requirements file here
+     /usr/local/bin/pip3 install --upgrade pip --no-cache-dir
+     /usr/local/bin/pip3 install --no-cache-dir -U dm-haiku immutabledict==2.0.0 ml-collections==0.1.0
+     /usr/local/bin/pip3 install --no-cache-dir -U PyPI biopython==1.79 chex==0.0.7 dm-tree==0.1.6 tensorflow-cpu==2.9.0
+     /usr/local/bin/pip3 install --no-cache-dir -U numpy==1.21.6 pandas==1.3.4 protobuf==3.20.1 scipy==1.7.0
+
+
+# Add SETUID bit to the ldconfig binary so that non-root users can run it. I don't think we need that
+chmod u+s /sbin/ldconfig.real
+
+# We need to run `ldconfig` first to ensure GPUs are visible, due to some quirk
+# with Debian. Not with ROCm See https://github.com/NVIDIA/nvidia-docker/issues/1399 for
+# details.
+# ENTRYPOINT does not support easily running multiple commands, so instead we
+# write a shell script to wrap them up
+cd /app/alphafold
+echo $'#!/bin/bash\n\
+ldconfig\n\
+python /app/alphafold/run_alphafold.py "$@"' > /app/run_alphafold.sh \
+  && chmod +x /app/run_alphafold.sh
+
+
+
+
+%runscript
+    uname -a
+    echo "Running Python version: (Python 3.9.10 is the current version)"
+    python3 --version
+    echo "running some tests (they should not segfault and Jax device count should be equal to what was requested by SLURM):"
+    python3 -c "import jax; import haiku as hk;  print('Jax Device count'); print(jax.device_count()); print('Testing Haiku random devices'); seq = hk.PRNGSequence(42); print(next(seq));"
+    echo "Now download openMM v7.5.1 from https://github.com/openmm/openmm/releases and build them using rocm clang somehow"
+    echo  "See http://docs.openmm.org/latest/userguide/library/02_compiling.html#compiling-openmm-from-source-code GOOD LUCK"
+    /bin/bash -l
+    
