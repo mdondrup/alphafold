@@ -9,12 +9,14 @@ Author mdondrup
     apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         cmake \
+        cmake-curses-gui \
         git \
         hmmer \
         kalign \
         tzdata \
         flex \
-        bison
+        bison \
+        doxygen \
 # leave the list, or we can't use apt later
 # && rm -rf /var/lib/apt/lists/* \
 #    && apt-get autoremove -y \
