@@ -16,6 +16,10 @@ Author mdondrup
         tzdata \
         flex \
         bison \
+        swig \
+        libfftw3-double3 \
+        libfftw3-bin \
+        libfftw3-dev \
         doxygen \
 # leave the list, or we can't use apt later
 # && rm -rf /var/lib/apt/lists/* \
