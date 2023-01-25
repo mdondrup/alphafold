@@ -48,7 +48,7 @@ Author mdondrup
 # Compile OpenMM from source.
     git clone --branch 7.5.1-build https://github.com/mdondrup/openmm_rocm_pre-built-for-singularity.git /tmp/openmm \
     && pushd /tmp/openmm/build \
-    && make install \
+    && make -j 4 && make install \
     && popd \
     && rm -rf /tmp/openmm
 
