@@ -50,6 +50,7 @@ Author mdondrup
     git clone --branch 7.5.1-build https://github.com/mdondrup/openmm_rocm_pre-built-for-singularity.git /tmp/openmm \
     && cd /tmp/openmm/build \
     && make -j 4 && make install \
+    && make PythonInstall
     && cd $WD \
     && rm -rf /tmp/openmm
 
@@ -87,8 +88,7 @@ chmod u+s /sbin/ldconfig.real
 # We need to run `ldconfig` first to ensure GPUs are visible, due to some quirk
 # with Debian. Not with ROCm See https://github.com/NVIDIA/nvidia-docker/issues/1399 for
 # details.
-# ENTRYPOINT does not support easily running multiple commands, so instead we
-# write a shell script to wrap them up
+
 cd /app/alphafold
 echo $'#!/bin/bash\n\
 ldconfig\n\
@@ -104,7 +104,9 @@ python /app/alphafold/run_alphafold.py "$@"' > /app/run_alphafold.sh \
     python3 --version
     echo "running some tests (they should not segfault and Jax device count should be equal to what was requested by SLURM):"
     python3 -c "import jax; import haiku as hk;  print('Jax Device count'); print(jax.device_count()); print('Testing Haiku random devices'); seq = hk.PRNGSequence(42); print(next(seq));"
-    echo "Now download openMM v7.5.1 from https://github.com/openmm/openmm/releases and build them using rocm clang somehow"
-    echo  "See http://docs.openmm.org/latest/userguide/library/02_compiling.html#compiling-openmm-from-source-code GOOD LUCK"
+    echo "Running OpenMM Python test: OpenMM is installed in /usr/local, with some example scripts in /usr/local/examples"
+    python3 -m openmm.testInstallation
+    
+    
     /bin/bash -l
     
