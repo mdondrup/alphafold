@@ -45,8 +45,15 @@ Author mdondrup
     && ln -s /opt/hhsuite/bin/* /usr/bin \
     && cd $WD \
     && rm -rf /tmp/hh-suite
-    
+
+
+
+
 # Compile OpenMM from source.
+## Install python packages required to build Python binding
+    /usr/local/bin/pip3 install --upgrade pip --no-cache-dir
+    /usr/local/bin/pip3 install --no-cache-dir -U Cython
+
     git clone --branch 7.5.1-build https://github.com/mdondrup/openmm_rocm_pre-built-for-singularity.git /tmp/openmm \
     && cd /tmp/openmm/build \
     && make -j 4 && make install \
