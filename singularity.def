@@ -57,7 +57,7 @@ Author mdondrup
     git clone --branch 7.5.1-build https://github.com/mdondrup/openmm_rocm_pre-built-for-singularity.git /tmp/openmm \
     && cd /tmp/openmm/build \
     && make -j 4 && make install \
-    && make PythonInstall
+    && make PythonInstall \
     && cd $WD \
     && rm -rf /tmp/openmm
 
