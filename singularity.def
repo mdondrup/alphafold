@@ -97,7 +97,7 @@ Author mdondrup
 # Install pdbfixer
     git clone --branch v1.8.1 https://github.com/openmm/pdbfixer.git  /tmp/pdbfixer \
     && cd /tmp/pdbfixer \
-    && python3 setup.py install \
+    && python3 setup.py install --prefix /usr/local/lib/python3.9/dist-packages/ \
     && rm -rf /tmp/pdbfixer
     
 
