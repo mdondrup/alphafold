@@ -93,7 +93,7 @@ Author mdondrup
     && cd $WD \
     && rm -rf /tmp/openmm
 
-# Install pdbfixer
+# Install pdbfixer ( <= v1.7 uses import simtk.openmm instead of: import openmm)
     git clone --branch v1.7 https://github.com/openmm/pdbfixer.git  /tmp/pdbfixer \
     && cd /tmp/pdbfixer \
     && python3 setup.py install \
@@ -121,8 +121,8 @@ python /app/alphafold/run_alphafold.py "$@"' > /app/run_alphafold.sh \
     echo "running some tests (they should not segfault and Jax device count should be equal to what was requested by SLURM):"
     python3 -c "import jax; import haiku as hk;  print('Jax Device count'); print(jax.device_count()); print('Testing Haiku random devices'); seq = hk.PRNGSequence(42); print(next(seq));"
     echo "Running OpenMM Python test: OpenMM is installed in /usr/local, with some example scripts in /usr/local/examples"
-    python3 -c "import openmm; import pdbfixer"
-    
+    python3 -c "import simtk.openmm; import pdbfixer"
+    python3 /app/alphafold/test_imports.py
     
     /bin/bash -l
     
