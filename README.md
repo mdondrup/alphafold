@@ -2,6 +2,12 @@
 
 # AlphaFold (port to ROCm in singularity) for use with LUMI-C
 
+--------------------------------
+It seems like, I cannot build or install OpenMM python bindings properly, 
+even with extending
+PYTHONPATH, always one of the modules (openmm, simtk, openmm.app) is not found during import
+Seems like, this is not going to work unless openMM is installed via conda.. in the exact right locations 
+--------------------------------
 Current status: Compiling OpenMM for ROCm/OpenCL with CMake works. Most tests pass
 
 This is the result of make test with --nodes=1 --ntasks=8 --gpus-per-node=4 --exclusive
