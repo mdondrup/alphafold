@@ -23,6 +23,43 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'openmm.app'
 
 ````
+Running /app/alphafold/run_alphafold_test.py succeedes!
+
+```
+
+Singularity> pip3 install mock
+Defaulting to user installation because normal site-packages is not writeable
+Collecting mock
+  Using cached mock-5.0.1-py3-none-any.whl (30 kB)
+Installing collected packages: mock
+Successfully installed mock-5.0.1
+Singularity> python3 /app/alphafold/run_alphafold_test.py
+Running tests under Python 3.9.10: /usr/bin/python3
+[ RUN      ] RunAlphafoldTest.test_end_to_end_no_relax
+I0128 17:20:03.246020 23245378565952 run_alphafold.py:161] Predicting test
+I0128 17:20:03.246308 23245378565952 run_alphafold.py:191] Running model model1 on test
+I0128 17:20:03.246400 23245378565952 run_alphafold.py:203] Total JAX model model1 on test predict time (includes compilation time, see --benchmark): 0.0s
+I0128 17:20:03.252156 23245378565952 run_alphafold.py:277] Final timings for test: {'features': 2.9325485229492188e-05, 'process_features_model1': 2.3126602172851562e-05, 'predict_and_compile_model1': 1.5735626220703125e-05}
+[       OK ] RunAlphafoldTest.test_end_to_end_no_relax
+[ RUN      ] RunAlphafoldTest.test_end_to_end_relax
+I0128 17:20:03.253379 23245378565952 run_alphafold.py:161] Predicting test
+I0128 17:20:03.253503 23245378565952 run_alphafold.py:191] Running model model1 on test
+I0128 17:20:03.253582 23245378565952 run_alphafold.py:203] Total JAX model model1 on test predict time (includes compilation time, see --benchmark): 0.0s
+I0128 17:20:03.255511 23245378565952 run_alphafold.py:277] Final timings for test: {'features': 2.5510787963867188e-05, 'process_features_model1': 2.09808349609375e-05, 'predict_and_compile_model1': 1.4066696166992188e-05, 'relax_model1': 2.6464462280273438e-05}
+[       OK ] RunAlphafoldTest.test_end_to_end_relax
+----------------------------------------------------------------------
+Ran 2 tests in 0.011s
+
+OK
+
+```
+
+
+
+
+
+
+
 Compiling OpenMM for ROCm/OpenCL with CMake works. Most tests pass
 
 This is the result of make test with --nodes=1 --ntasks=8 --gpus-per-node=4 --exclusive
