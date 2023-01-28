@@ -88,16 +88,15 @@ Author mdondrup
 
     git clone --branch 7.5.1-build https://github.com/mdondrup/openmm_rocm_pre-built-for-singularity.git /tmp/openmm \
     && cd /tmp/openmm/build \
-    && cmake .. \
     && make -j 4 && make install \
     && make PythonInstall \
     && cd $WD \
     && rm -rf /tmp/openmm
 
 # Install pdbfixer
-    git clone --branch v1.8.1 https://github.com/openmm/pdbfixer.git  /tmp/pdbfixer \
+    git clone --branch v1.7 https://github.com/openmm/pdbfixer.git  /tmp/pdbfixer \
     && cd /tmp/pdbfixer \
-    && python3 setup.py install --prefix /usr/local/lib/python3.9/dist-packages/ \
+    && python3 setup.py install \
     && rm -rf /tmp/pdbfixer
     
 
@@ -118,6 +117,7 @@ python /app/alphafold/run_alphafold.py "$@"' > /app/run_alphafold.sh \
     uname -a
     echo "Running Python version: (Python 3.9.10 is the current version)"
     python3 --version
+    export PYTHONPATH=/usr/lib/python3.9/site-packages/pdbfixer-1.7-py3.9.egg:/usr/lib/python3.9/site-packages/
     echo "running some tests (they should not segfault and Jax device count should be equal to what was requested by SLURM):"
     python3 -c "import jax; import haiku as hk;  print('Jax Device count'); print(jax.device_count()); print('Testing Haiku random devices'); seq = hk.PRNGSequence(42); print(next(seq));"
     echo "Running OpenMM Python test: OpenMM is installed in /usr/local, with some example scripts in /usr/local/examples"
