@@ -8,7 +8,9 @@ even with extending
 PYTHONPATH, always one of the modules (openmm, simtk, openmm.app) is not found during import
 Seems like, this is not going to work unless openMM is installed via conda.. in the exact right locations 
 --------------------------------
-Any ideas welcome:
+Any ideas welcome....
+
+ - problem is caused by incompatible pdbfixer and openmm versions (pdbfixer version not given in af setup but it should be <=1.7).
 
 ```
 export PYTHONPATH=/usr/lib/python3.9/site-packages/pdbfixer-1.8.1-py3.9.egg:/usr/lib/python3.9/simtk:/usr/lib/python3.9/simtk/openmm:/usr/lib/python3.9
