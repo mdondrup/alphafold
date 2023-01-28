@@ -3,11 +3,29 @@
 # AlphaFold (port to ROCm in singularity) for use with LUMI-C
 
 --------------------------------
-It seems like, I cannot build or install OpenMM python bindings properly, 
+It seems we cannot build or install OpenMM python bindings properly, 
 even with extending
 PYTHONPATH, always one of the modules (openmm, simtk, openmm.app) is not found during import
 Seems like, this is not going to work unless openMM is installed via conda.. in the exact right locations 
 --------------------------------
+Any ideas welcome:
+
+```
+export PYTHONPATH=/usr/lib/python3.9/site-packages/pdbfixer-1.8.1-py3.9.egg:/usr/lib/python/simtk:/usr/lib/python/simtk/openmm:/usr/lib/python:/usr/lib/python/simtk/openmm/app
+
+python3 -c "import pdbfixer"
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/usr/lib/python3.9/site-packages/pdbfixer-1.8.1-py3.9.egg/pdbfixer/__init__.py", line 2, in <module>
+    from .pdbfixer import PDBFixer
+  File "/usr/lib/python3.9/site-packages/pdbfixer-1.8.1-py3.9.egg/pdbfixer/pdbfixer.py", line 36, in <module>
+    import openmm.app as app
+ModuleNotFoundError: No module named 'openmm.app'
+
+
+````
+
+
 Current status: Compiling OpenMM for ROCm/OpenCL with CMake works. Most tests pass
 
 This is the result of make test with --nodes=1 --ntasks=8 --gpus-per-node=4 --exclusive
