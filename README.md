@@ -11,7 +11,7 @@ Seems like, this is not going to work unless openMM is installed via conda.. in 
 Any ideas welcome:
 
 ```
-export PYTHONPATH=/usr/lib/python3.9/site-packages/pdbfixer-1.8.1-py3.9.egg:/usr/lib/python/simtk:/usr/lib/python/simtk/openmm:/usr/lib/python:/usr/lib/python/simtk/openmm/app
+export PYTHONPATH=/usr/lib/python3.9/site-packages/pdbfixer-1.8.1-py3.9.egg:/usr/lib/python3.9/simtk:/usr/lib/python3.9/simtk/openmm:/usr/lib/python3.9
 
 python3 -c "import pdbfixer"
 Traceback (most recent call last):
