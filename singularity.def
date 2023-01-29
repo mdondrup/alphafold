@@ -82,7 +82,8 @@ Author mdondrup
      pandas==1.3.4 \
      protobuf==3.20.1 \
      scipy==1.7.0 \
-     Cython
+     Cython \
+     mock
 
 # Compile OpenMM from source.
 
@@ -120,9 +121,8 @@ python /app/alphafold/run_alphafold.py "$@"' > /app/run_alphafold.sh \
     export PYTHONPATH=/usr/lib/python3.9/site-packages/pdbfixer-1.7-py3.9.egg:/usr/lib/python3.9/site-packages/
     echo "running some tests (they should not segfault and Jax device count should be equal to what was requested by SLURM):"
     python3 -c "import jax; import haiku as hk;  print('Jax Device count'); print(jax.device_count()); print('Testing Haiku random devices'); seq = hk.PRNGSequence(42); print(next(seq));"
-    echo "Running OpenMM Python test: OpenMM is installed in /usr/local, with some example scripts in /usr/local/examples"
-    python3 -c "import simtk.openmm; import pdbfixer"
-    python3 /app/alphafold/test_imports.py
+    echo "Running Alphafold test script"
+    python3 /app/alphafold/run_alphafold_test.py
     
     /bin/bash -l
     
