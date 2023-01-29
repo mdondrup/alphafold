@@ -5,6 +5,7 @@
 - Current status: The image performs some tests when run. So far, all Python modules that run_alphafold.py imports can be loaded without error. Alphafold test script succeeds. 
 
  - A problem was caused by incompatible pdbfixer and openmm versions (pdbfixer version was not given in upstream af setup but it should be <=1.7). Fixed. 
+ - HHsuit Illegal instruction problem on AMD CPU fixed
  
 ```
 
