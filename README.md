@@ -2,6 +2,16 @@
 
 # AlphaFold (port to ROCm in singularity) for use with LUMI-C
 
+- Running run_alphafold.py fails:
+
+```
+raise jax.errors.UnexpectedTracerError(unexpected_tracer_hint) from e
+jax._src.errors.UnexpectedTracerError: An UnexpectedTracerError was raised while inside a Haiku transformed function (see error above).
+Hint: are you using a JAX transform or JAX control-flow function (jax.vmap/jax.scan/...) inside a Haiku transform? You might want to use the Haiku version of the transform instead (hk.vmap/hk.scan/...).
+```
+
+I think this could be caused by incompatible Jax version in the base image (0.3.1) while alphafold requirements states 0.3.5
+
 - Current status: The image performs some tests when run. So far, all Python modules that run_alphafold.py imports can be loaded without error. Alphafold test script succeeds. 
 
  - A problem was caused by incompatible pdbfixer and openmm versions (pdbfixer version was not given in upstream af setup but it should be <=1.7). Fixed. 
