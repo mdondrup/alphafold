@@ -10,7 +10,7 @@ jax._src.errors.UnexpectedTracerError: An UnexpectedTracerError was raised while
 Hint: are you using a JAX transform or JAX control-flow function (jax.vmap/jax.scan/...) inside a Haiku transform? You might want to use the Haiku version of the transform instead (hk.vmap/hk.scan/...).
 ```
 
-I think this could be caused by incompatible Jax version in the base image (0.3.1) while alphafold requirements states 0.3.5
+I think this could be caused by incompatible Jax version in the base image (0.3.1) while alphafold requirements states 0.3.25
 
 - Current status: The image performs some tests when run. So far, all Python modules that run_alphafold.py imports can be loaded without error. Alphafold test script succeeds. 
 
